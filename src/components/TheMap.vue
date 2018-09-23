@@ -5,7 +5,7 @@
     style="height:100%;"
     :map-type-id="mapSettings.type"
     :options="{
-      maxZoom: 21,
+      maxZoom: 10,
       minZoom: 2,
       disableDefaultUI: true,
       zoomControl: true,
