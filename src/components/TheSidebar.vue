@@ -75,6 +75,8 @@
         </b-form-group>
       </b-form>
       <b-button class="d-flex mx-auto" variant="success" @click="markAllSeen">Mark All As Seen</b-button>
+      <b-button class="d-flex mx-auto mt-1" v-if="!admin" variant="danger" v-b-modal.adminLogin>Admin Login</b-button>
+      <b-button class="d-flex mx-auto mt-1" v-if="admin" variant="danger" @click="adminLogout">Admin Logout</b-button>
     </b-card-body>
 
     <b-card-footer>
@@ -86,8 +88,8 @@
     <b-card-footer>
       <div class="d-flex">
         <b-btn-group class="mx-auto">
-          <b-button variant="primary" v-b-modal.markerAdd>Add Marker</b-button>
-          <b-button @click="toggleMap" v-b-tooltip.hover :title="showMap ? 'View Data' : 'View Map'"  disabled>
+          <b-button variant="primary" :disabled="!showMap" v-b-modal.markerAdd>Add Marker</b-button>
+          <b-button variant="info" @click="toggleMap" v-b-tooltip.hover :title="showMap ? 'View Data' : 'View Map'">
             <font-awesome-icon icon="database" v-if="showMap === true" fixed-width />
             <font-awesome-icon icon="map-marked-alt" v-if="showMap === false" fixed-width />
           </b-button>
@@ -107,7 +109,6 @@ export default {
   data() {
     return {
       showSettings: false,
-      showMap: true,
       mapTypes: [
         { value: 'roadmap', text: 'Roadmap' },
         { value: 'terrain', text: 'Terrain' },
@@ -152,8 +153,7 @@ export default {
       })
     },
     toggleMap() {
-      this.showMap = !this.showMap
-      this.$emit('mapToggle', this.showMap)
+      this.$store.commit('toggleMap')
     },
     changeSort(e) {
       let sortType = e.target.innerText
@@ -161,6 +161,9 @@ export default {
         type: sortType,
         field: this.sortOptions[sortType]
       })
+    },
+    adminLogout() {
+      this.$store.dispatch('logout')
     }
   },
   computed: {
@@ -208,7 +211,13 @@ export default {
       return count
     },
     infoWin() {
-      return this.$store.getter.getInfoWin
+      return this.$store.getters.getInfoWin
+    },
+    showMap() {
+      return this.$store.getters.getShowMap
+    },
+    admin() {
+      return this.$store.getters.getAdmin
     }
   }
 }
@@ -246,5 +255,8 @@ export default {
   .sort-button:active {
     background-color: transparent !important;
     color: #80bdff !important;
+  }
+  .disabled {
+    cursor: not-allowed;
   }
 </style>

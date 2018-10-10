@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import firestore from './firestore'
+import firebase from './firebase'
 
 Vue.use(Vuex)
 
@@ -44,7 +44,10 @@ export const store = new Vuex.Store({
       clusterID: null,
       nextInCluster: null,
       prevInCluster: null
-    }
+    },
+    showMap: true,
+    admin: false,
+    user: {}
   },
   mutations: {
     watchViewers(state, viewers) {
@@ -55,7 +58,7 @@ export const store = new Vuex.Store({
     },
     changeviewersSort(state, sortBy) {
       state.viewersSort = sortBy
-      firestore.newFeedSort()
+      firebase.newFeedSort()
     },
     markSeenViewer(state, id) {
       state.seenViewers.push(id)
@@ -151,11 +154,29 @@ export const store = new Vuex.Store({
           prevInCluster: ''
         }
       }
+    },
+    toggleMap(state) {
+      state.showMap = !state.showMap
+    },
+    hideTable(state) {
+      state.showMap = true
+    },
+    updateAdmin(state, status) {
+      state.admin = status
     }
   },
   actions: {
     addViewer(state, text) {
-      firestore.addViewer(text)
+      firebase.addViewer(text)
+    },
+    deleteViewer(state, id) {
+      firebase.deleteViewer(id)
+    },
+    login(state, { email, password }) {
+      firebase.login(email, password)
+    },
+    logout(state) {
+      firebase.logout()
     }
   },
   getters: {
@@ -189,6 +210,12 @@ export const store = new Vuex.Store({
     },
     getClusterInfo: state => {
       return state.clusterInfo
+    },
+    getShowMap: state => {
+      return state.showMap
+    },
+    getAdmin: state => {
+      return state.admin
     }
   }
 })

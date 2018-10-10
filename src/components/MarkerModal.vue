@@ -31,7 +31,7 @@
         >
         </GmapAutocomplete>
       </b-form-group>
-      <b-form-group id="twitchIDInputGroup"
+      <b-form-group id="hueInputGroup"
         label="Hue:"
       ></b-form-group>
       <b-row class="form-row mb-2">
@@ -56,7 +56,7 @@ import ColorPicker from '@radial-color-picker/vue-color-picker'
 import countriesList from 'countries-list'
 
 export default {
-  name: 'TheModal',
+  name: 'MarkerModal',
   components: { TheCrayon, ColorPicker },
   data() {
     return {

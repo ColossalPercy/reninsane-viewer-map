@@ -17,9 +17,7 @@ import {
   faUsers,
   faDatabase,
   faMapMarkedAlt,
-  faLayerGroup,
-  faCaretUp,
-  faCaretDown
+  faLayerGroup
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -43,9 +41,7 @@ library.add(
   faUsers,
   faDatabase,
   faMapMarkedAlt,
-  faLayerGroup,
-  faCaretUp,
-  faCaretDown
+  faLayerGroup
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

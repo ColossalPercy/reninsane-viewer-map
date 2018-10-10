@@ -1,35 +1,36 @@
 <template>
   <div id="app">
-    <div class="map">
-      <the-modal></the-modal>
-      <the-map v-if="showMap"></the-map>
+    <div class="main">
+      <marker-modal></marker-modal>
+      <login-modal></login-modal>
+      <the-map v-if="showMap === true"></the-map>
+      <the-table v-if="showMap === false"></the-table>
     </div>
     <div class="sidebar">
-      <the-sidebar @mapToggle="test($event)"></the-sidebar>
+      <the-sidebar></the-sidebar>
     </div>
   </div>
 </template>
 
 <script>
-import TheModal from './components/TheModal'
+import MarkerModal from './components/MarkerModal'
+import LoginModal from './components/LoginModal'
 import TheSidebar from './components/TheSidebar'
 import TheMap from './components/TheMap'
+import TheTable from './components/TheTable'
 
 export default {
   name: 'App',
   components: {
-    TheModal,
+    MarkerModal,
+    LoginModal,
     TheSidebar,
-    TheMap
+    TheMap,
+    TheTable
   },
-  data() {
-    return {
-      showMap: true
-    }
-  },
-  methods: {
-    test(e) {
-      this.showMap = e
+  computed: {
+    showMap() {
+      return this.$store.getters.getShowMap
     }
   }
 }
@@ -47,7 +48,7 @@ export default {
     display: flex;
     flex-direction: row;
   }
-  .map {
+  .main {
     flex: 1 0 0;
   }
   .sidebar {
