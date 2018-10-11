@@ -25,14 +25,14 @@
           {{ viewer.name }}
           <div class="d-flex mr-1">
             <b-badge class="mr-1" :style="{'visibility': !seenViewers.includes(viewer.id) ? 'visible' : 'hidden'}">NEW</b-badge>
-            <span
+            <!-- <span
               :class="flagClass(viewer.location.address_components.country.short_name)"
               :id="'flag-' + viewer.id"
               v-b-tooltip.hover
             ></span>
             <b-tooltip :target="'flag-' + viewer.id" boundary='window'>
               {{ viewer.location.address_components.country.long_name }}
-            </b-tooltip>
+            </b-tooltip> -->
 
           </div>
         </b-list-group-item>

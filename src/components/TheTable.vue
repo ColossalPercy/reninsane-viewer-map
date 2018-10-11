@@ -6,12 +6,12 @@
       </b-card-header>
       <b-card-body class="p-0" style="overflow: auto">
         <b-table hover fixed head-variant="light" :items="viewers" :fields="admin ? adminFields : userFields">
-          <template slot="country" slot-scope="data">
+          <!-- <template slot="country" slot-scope="data">
             <div class="d-flex justify-content-between align-items-center">
               {{ data.item.country }}
               <span :class="flagClass(data.item.iso)"></span>
             </div>
-          </template>
+          </template> -->
           <template slot="created_at" slot-scope="data">
             {{ data.item.created_at.toDate().toLocaleDateString("en-gb", dateOptions) }}
           </template>
