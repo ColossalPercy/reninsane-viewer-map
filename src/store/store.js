@@ -9,10 +9,6 @@ export const store = new Vuex.Store({
   state: {
     viewers: [],
     viewersFilterText: '',
-    viewersSort: {
-      type: 'Name',
-      field: 'name'
-    },
     seenViewers: localStorage.seenViewers
       ? JSON.parse(localStorage.seenViewers)
       : [],
@@ -55,10 +51,6 @@ export const store = new Vuex.Store({
     },
     updateViewersFilter(state, filter) {
       state.viewersFilterText = filter
-    },
-    changeviewersSort(state, sortBy) {
-      state.viewersSort = sortBy
-      firebase.newFeedSort()
     },
     markSeenViewer(state, id) {
       state.seenViewers.push(id)
@@ -189,9 +181,6 @@ export const store = new Vuex.Store({
           .toLowerCase()
           .includes(state.viewersFilterText.toLowerCase())
       })
-    },
-    getviewersSort: state => {
-      return state.viewersSort
     },
     getSeenViewers: state => {
       return state.seenViewers

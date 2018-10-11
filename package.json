@@ -19,8 +19,8 @@
     "bootstrap-vue": "^2.0.0-rc.11",
     "countries-list": "^2.3.2",
     "firebase": "^5.5.0",
+    "flag-icon-css": "^3.2.0",
     "vue": "^2.5.2",
-    "vue-flag-icon": "^1.0.6",
     "vue2-gmap-custom-marker": "^5.3.1",
     "vue2-google-maps": "^0.10.2",
     "vuex": "^3.0.1"

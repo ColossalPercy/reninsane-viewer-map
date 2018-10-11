@@ -23,7 +23,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import '@radial-color-picker/vue-color-picker/dist/vue-color-picker.min.css'
 
-import FlagIcon from 'vue-flag-icon'
+import 'flag-icon-css/css/flag-icon.css'
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -36,17 +36,9 @@ Vue.component('GmapCluster', GmapCluster)
 
 Vue.use(BootstrapVue)
 
-library.add(
-  faCog,
-  faUsers,
-  faDatabase,
-  faMapMarkedAlt,
-  faLayerGroup
-)
+library.add(faCog, faUsers, faDatabase, faMapMarkedAlt, faLayerGroup)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-
-Vue.use(FlagIcon)
 
 // Setup Vue app
 Vue.config.productionTip = false

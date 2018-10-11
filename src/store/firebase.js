@@ -15,26 +15,28 @@ db.settings(settings)
 let viewers = db.collection('viewers')
 
 // Getting Real time feeds
-function feed() {
-  viewers
-    .orderBy(store ? store.getters.getviewersSort.field : 'name', 'asc')
-    .onSnapshot(querySnapshot => {
-      const theViewers = []
-      querySnapshot.forEach(doc => {
-        theViewers.push({ id: doc.id, ...doc.data() })
-      })
-      store.commit('watchViewers', theViewers)
-    })
-}
+viewers.onSnapshot(querySnapshot => {
+  const theViewers = []
+  querySnapshot.forEach(doc => {
+    theViewers.push({ id: doc.id, ...doc.data() })
+  })
 
-feed()
+  function compare(a, b) {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1
+    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1
+    return 0
+  }
+  theViewers.sort(compare)
+
+  store.commit('watchViewers', theViewers)
+})
 
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     store.commit('updateAdmin', true)
   } else {
     store.commit('updateAdmin', false)
-    // store.commit('hideTable')
+    store.commit('hideTable')
   }
 })
 
@@ -78,9 +80,6 @@ export default {
       .catch(function(error) {
         console.error('Error removing document: ', error)
       })
-  },
-  newFeedSort: () => {
-    feed()
   },
   login,
   logout

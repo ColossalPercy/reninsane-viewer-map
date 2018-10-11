@@ -6,10 +6,10 @@
       </b-card-header>
       <b-card-body class="p-0" style="overflow: auto">
         <b-table hover fixed head-variant="light" :items="viewers" :fields="admin ? adminFields : userFields">
-          <template slot="location.address_components.country.long_name" slot-scope="data">
+          <template slot="country" slot-scope="data">
             <div class="d-flex justify-content-between align-items-center">
-              {{ data.item.location.address_components.country.long_name }}
-              <flag :iso="data.item.location.address_components.country.short_name"/>
+              {{ data.item.country }}
+              <span :class="flagClass(data.item.iso)"></span>
             </div>
           </template>
           <template slot="created_at" slot-scope="data">
@@ -40,14 +40,12 @@ export default {
           sortable: true
         },
         {
-          key: 'location.address_components.country.long_name',
-          label: 'Country',
-          sortable: false
+          key: 'country',
+          sortable: true
         },
         {
-          key: 'location.address_components.continent.long_name',
-          label: 'Continent',
-          sortable: false
+          key: 'continent',
+          sortable: true
         },
         {
           key: 'created_at',
@@ -64,7 +62,18 @@ export default {
   },
   computed: {
     viewers() {
-      return this.$store.getters.getViewers
+      let raw = this.$store.getters.getViewers
+      return raw.map(viewer => {
+        return {
+          id: viewer.id,
+          name: viewer.name,
+          hue: viewer.hue,
+          created_at: viewer.created_at,
+          country: viewer.location.address_components.country.long_name,
+          iso: viewer.location.address_components.country.short_name,
+          continent: viewer.location.address_components.continent.long_name
+        }
+      })
     },
     adminFields() {
       let fields = this.userFields
@@ -84,6 +93,9 @@ export default {
   methods: {
     deleteViewer(id) {
       this.$store.dispatch('deleteViewer', id)
+    },
+    flagClass(iso) {
+      return 'flag-icon flag-icon-squared flag-icon-' + iso.toLowerCase()
     }
   }
 }

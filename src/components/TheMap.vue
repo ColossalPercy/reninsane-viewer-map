@@ -93,7 +93,7 @@ export default {
       return styles[this.$store.getters.getMapSettings.style]
     },
     viewers() {
-      return this.$store.getters.getViewersFilter
+      return this.$store.getters.getViewers
     },
     seenViewers() {
       return this.$store.getters.getSeenViewers

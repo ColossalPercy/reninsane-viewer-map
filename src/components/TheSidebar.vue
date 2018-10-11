@@ -9,24 +9,6 @@
       <b-list-group class="p-2">
         <b-input-group>
           <b-form-input class="filter-input" placeholder="Filter..." v-model="filterText"></b-form-input>
-          <b-input-group-append>
-            <b-btn id="sortButton" class="sort-button" variant="outline-secondary" v-b-tooltip.hover title="Sort">
-              <font-awesome-icon icon="layer-group"/>
-            </b-btn>
-            <b-popover
-              target="sortButton"
-              placement="bottomleft"
-              title="Sort Options"
-              triggers="focus"
-            >
-              <b-btn-group vertical>
-                <b-btn @click="changeSort">Name</b-btn>
-                <b-btn @click="changeSort">Date</b-btn>
-                <b-btn @click="changeSort">Country</b-btn>
-                <b-btn @click="changeSort">Continent</b-btn>
-              </b-btn-group>
-            </b-popover>
-          </b-input-group-append>
         </b-input-group>
       </b-list-group>
     </b-card-body>
@@ -43,13 +25,13 @@
           {{ viewer.name }}
           <div class="d-flex mr-1">
             <b-badge class="mr-1" :style="{'visibility': !seenViewers.includes(viewer.id) ? 'visible' : 'hidden'}">NEW</b-badge>
-            <flag
+            <span
+              :class="flagClass(viewer.location.address_components.country.short_name)"
               :id="'flag-' + viewer.id"
-              :iso="viewer.location.address_components.country.short_name"
               v-b-tooltip.hover
-              />
+            ></span>
             <b-tooltip :target="'flag-' + viewer.id" boundary='window'>
-              {{ viewer.location.address_components.country.long_name + (viewersSort.type == 'Continent' ? ' - ' + viewer.location.address_components.continent.long_name: '') }}
+              {{ viewer.location.address_components.country.long_name }}
             </b-tooltip>
 
           </div>
@@ -155,15 +137,11 @@ export default {
     toggleMap() {
       this.$store.commit('toggleMap')
     },
-    changeSort(e) {
-      let sortType = e.target.innerText
-      this.$store.commit('changeviewersSort', {
-        type: sortType,
-        field: this.sortOptions[sortType]
-      })
-    },
     adminLogout() {
       this.$store.dispatch('logout')
+    },
+    flagClass(iso) {
+      return 'flag-icon flag-icon-squared flag-icon-' + iso.toLowerCase()
     }
   },
   computed: {
@@ -194,9 +172,6 @@ export default {
       set(value) {
         this.$store.commit('updateMapStyle', value)
       }
-    },
-    viewersSort() {
-      return this.$store.getters.getviewersSort
     },
     seenViewers() {
       return this.$store.getters.getSeenViewers
@@ -235,26 +210,6 @@ export default {
   }
   .num-new {
     line-height: inherit !important;
-  }
-  .filter-input {
-    border-right: 0 !important;
-  }
-  .filter-input + div {
-    border: 1px solid #ced4da !important;
-    border-left: 0 !important;
-    border-top-right-radius: 0.25rem !important;
-    border-bottom-right-radius: 0.25rem !important;
-  }
-  .filter-input:focus + div {
-    border-color: #80bdff !important;
-  }
-  .sort-button {
-    border: 0 !important;
-  }
-  .sort-button:hover,
-  .sort-button:active {
-    background-color: transparent !important;
-    color: #80bdff !important;
   }
   .disabled {
     cursor: not-allowed;
